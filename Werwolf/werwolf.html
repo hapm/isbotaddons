@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>..:: Werwolf-Script - Spielregeln ::..</title>
+		<style type="text/css">
+			<!--
+			
+			a {
+				color: darkred;
+			}
+			
+			a:hover {
+				color: red;
+			}
+			
+			#title {
+				border-bottom: 1pt solid black;
+				text-align: center;
+			}			
+			
+			#menu {
+				float: left;
+				display: block;
+				width: 120pt;
+			}
+			
+			#main {
+				border-left: 1pt solid black;
+				margin-left: 120pt;
+				padding-top: 1pt;
+				padding-bottom: 10pt;
+				padding-left: 10pt;
+			}
+			
+			#main p {
+				padding-left: 10pt;
+			}
+			
+			.commandtable {
+				border: 1px solid gray;
+			}
+			
+			.commandtable th, .commandtable td {
+				cell-spacing: 0px;
+				vertical-align: top;
+			}
+			
+			.commandtable th {
+				text-align: left;
+			}
+			
+			#footer {
+				border-top: 1pt solid black;
+				padding-top: 5pt;
+				text-align: center;
+				clear: both;
+			}
+			
+			.up {
+				margin-top: 10pt;
+				float: right;
+				display: block;
+				font-size: 8pt;
+			}
+			
+			.colhl {
+				background-color: lightgray;
+			}
+			
+			.trigger {
+				background-color: lightgray;
+			}
+			-->
+		</style>
+	</head>
+	<body>
+		<div id="title">
+			<h1>..:: Werwolf-Script - Spielregeln ::..</h1>
+		</div>
+		<div id="menu">
+			<ul>
+				<li><a href="#intro">Intro</a></li>
+				<li><a href="#install">Installation</a></li>
+				<li><a href="#gameflow">Spielablauf</a></li>
+				<li><a href="#specials">Spezial-Klassen</a></li>
+				<li><a href="#wulfcom">Wulfcom</a></li>
+				<li><a href="#commands">Spiel-Befehle</a></li>
+				<li><a href="#opcommands">Op-Befehle</a></li>
+			</ul>
+		</div>
+		<div id="main">
+			<a href="#" class="up">&uarr; Nach Oben &uarr;</a>
+			<h2 id="intro">Intro</h2>
+			<p>
+				Werwolf ist ein Spiel, was eigentlich in einer Runde mit Karten gespielt wird. Es handelt sich
+				dabei um zwei Gruppen: den Werw&ouml;lfen und den B&uuml;rgern. Dabei bestimmen die Karten zuf&auml;llig wer zu
+				welcher Gruppe geh&ouml;rt. Zudem werden noch weitere Spezial-Klassen auf diese Weise verteilt.
+				Das Ziel ist dabei sehr einfach: Die eine Gruppe muss die andere ausrotten. 
+			</p>
+			<a href="#" class="up">&uarr; Nach Oben &uarr;</a>
+			<h2 id="install">Installation</h2>
+			<p>
+				Entpacke das Archiv in einen Unterordner deines Bots. Starte danach deinen Bot (falls er nicht
+				schon l&auml;ft) und tippe in einem Fenster folgendes ein:<br />
+				<code>/load -rs <i>[Pfad]</i>Mod.Werwolf.mrc</code><br />
+				F&uuml;r <i>[Pfad]</i> musst du den entsprechenden Pfad angeben, wo du die Dateien entpackt hast. 
+				Alternativ kannst du mit der Tasten-Kombination <code>Alt+R</code> den Script-Editor &ouml;ffnen,
+				dann auf Remote klicken und dann &uuml;ber das Men&uuml; File->Load... die Datei Mod.Werwolf.mrc
+				ausw&auml;len.<br />
+				<br />
+				Danach kannst du das Spiel in den von dir gewollten Channels mittels <code>!werwolf set an</code>
+				aktivieren (Siehe <a href="#opcommands">Op-Befehle</a>)
+			</p>
+			<a href="#" class="up">&uarr; Nach Oben &uarr;</a>
+			<h2 id="gameflow">Spielablauf</h2>
+			<p>
+				Der Spielablauf ist rundenbasiert. Jede Runde entspricht einem Tag. Der Tag beginnt mit der Nacht.
+				In dieser haben die W&ouml;lfe die M&ouml;glichkeit &uuml;ber die Wulfcom zu besprechen, welchen B&uuml;rger Sie diese
+				Nacht rei&szlig;en wollen. Am Tag darauf haben dann die B&uuml;rger die M&ouml;glichkeit einen unter Ihnen 
+				auszuw&auml;hlen, von dem sie der Meinung sind, dass er ein Werwolf ist. Dieser wird darauf erhangen.
+				Der Witz an dem Spiel liegt darin das die W&ouml;lfe sehr genau wissen wer Werwolf ist und wer nicht.
+				Die echten B&uuml;rger wissen es jedoch nicht. Daher m&uuml;ssen sie versuchen die Bemerkungen der anderen
+				Spieler am Tage richtig zu beurteilen, um letztentlich den echten Werw&ouml;lfen auf die Spur zu kommen
+				und nicht die richtigen B&uuml;rger zu erh&auml;ngen.
+			</p>
+			<a href="#" class="up">&uarr; Nach Oben &uarr;</a>
+			<h2 id="specials">Spezial-Klassen</h2>
+			<p>
+				Zus&auml;tzlich zu den beiden Gruppen werden noch einige weitere spezielle F&auml;higkeiten verteilt. Sie
+				werden am Anfang des Spiels zuf&auml;llig verteilt. Mansche dieser Klassen k&ouml;nnen nur von normalen
+				B&uuml;rgern, aber nicht von Werw&ouml;lfen angenommen werden.<br />
+				<br />
+				Allgemeine Spezial-Klassen:<br />
+				<a href="#king">Der K&ouml;nig</a>, <a href="#lovers">Die Verliebten</a>, <a href="#assasine">Der Assasine</a>, <a href="#thief">Der Dieb</a><br />
+				<br />
+				Spezial-Klassen f&uuml;r normale B&uuml;rger:<br />
+				<a href="#witch">Die Hexe</a>, <a href="#hollyman">Der Heilige</a>, <a href="#seer">Der Seher</a>
+			</p>			
+			<a href="#specials" class="up">&uarr; Spezial-Klassen &uarr;</a>
+			<h3 id="king">Der K&ouml;nig</h3>
+			<p>
+				Der K&ouml;nig ist der einzige von den Spezial-Klassen der immer allen Spielern bekannt ist. Kommt es bei 
+				der Abstimmung am Tage zu einem Unentschieden zwischen den B&uuml;rgern, hat er das Zepter in der Hand
+				und kann die letzte Wahl treffen.
+			</p>	
+			<a href="#specials" class="up">&uarr; Spezial-Klassen &uarr;</a>
+			<h3 id="lovers">Die Liebenden</h3>
+			<p>
+				Die Spezial-Klasse die Liebenden wird direkt an zwei Spieler verteilt. Diese beiden Spieler "lieben"
+				sich, und m&uuml;ssen versuchen alle anderen Spieler gegeneinander aufzuhetzen. Sind die beiden am Ende
+				die letzten &uuml;berlebenden so bekommen sie die doppelte Punktzahl f&uuml;r den Sieg gutgeschrieben. Stirbt
+				jedoch einer von ihnen w&auml;rend des Spiels, so teilt der andere dessen Schicksal.
+			</p>	
+			<a href="#specials" class="up">&uarr; Spezial-Klassen &uarr;</a>
+			<h3 id="assasine">Der Assasine</h3>
+			<p>
+				Der Assasine kann seine F&auml;higkeiten nur am ersten Tag auspielen. Er darf in der ersten Nacht eine
+				Person festlegen, von der er der Meinung ist das sie am ersten Tag am Galgen h&auml;ngt. Hatte er recht
+				gewinnt er das Spiel und alle anderen verlieren. Hat er sich geirrt, nimmt er normal am weiteren
+				Spiel teil.
+			</p>		
+			<a href="#specials" class="up">&uarr; Spezial-Klassen &uarr;</a>
+			<h3 id="thief">Der Dieb</h3>
+			<p>
+				Der Dieb ist eine, nicht einfach zu handhabende Spezial-Klasse. Er kann, wenn die Situation f&uuml;r seine
+				Gruppe aussichtslos erscheint die Seiten tauschen. Hier sollte man jedoch Vorsicht walten lassen 
+				wenn man den Werw&ouml;lfen angeh&ouml;rt hat. Diese k&ouml;nnen sehen wenn man die Seiten tauscht und da man 
+				ihre Identit&auml;t kennt, ist die Warscheinlichkeit ihr n&auml;chstes Opfer zu sein sehr hoch. Wechselt man
+				von den B&uuml;rgern zu den W&ouml;lfen so kann dies jedoch einen durchaus prositiven Effekt haben.
+			</p>		
+			<a href="#specials" class="up">&uarr; Spezial-Klassen &uarr;</a>
+			<h3 id="witch">Die Hexe</h3>
+			<p>
+				Die Hexe hat 2 F&auml;higkeiten. Zum einen kann sie nachts einem beliebigen Spieler das Leben nehmen, 
+				zum andere kann sie einen von den W&ouml;lfen get&ouml;teten wiederbeleben. Man sollte jedoch sparsam mit
+				den F&auml;higkeiten umgehen, da man beide nur 1 mal im ganzen Spiel anwenden kann. 
+			</p>	
+			<a href="#specials" class="up">&uarr; Spezial-Klassen &uarr;</a>
+			<h3 id="hollyman">Der Heilige</h3>
+			<p>
+				Der Heilige besitzt einen Schutzpatron. Er kann ihn 1 mal im Spiel rufen, um einen Angriff der W&ouml;lfe
+				zu &uuml;berleben. Beim Galgen hilft ihm diese F&auml;higkeit jedoch eher wenig.
+			</p>	
+			<a href="#specials" class="up">&uarr; Spezial-Klassen &uarr;</a>
+			<h3 id="seer">Der Seher</h3>
+			<p>
+				Der Seher ist eine wichtige Figur im Spiel. Er hat jede Nacht die M&ouml;glichkeit einen anderen Spieler
+				zu pr&uuml;fen und bekommt mitgeteilt, ob es sich um einen normalen B&uuml;rger oder um einen Werwolf handelt.
+				Am Tage kann er dann versuchen die anderen von seinem Wissen zu &uuml;berzeugen. Doch Vorsicht: Wissen die 
+				Werw&ouml;lfe erstmal wer der Seher ist, hat dieser ein kleines Problem.
+			</p>	
+			<a href="#" class="up">&uarr; Nach Oben &uarr;</a>
+			<h2 id="wulfcom">Wulfcom</h2>
+			<p>
+				Die Wulfcom ist ein spezielles Kommunikationsmittel f&uuml;r die Werw&ouml;lfe. Daher erh&auml;lt es einen eigenen
+				kleinen Bereich um die Funktion zu erleutern. Die Wulfcom ist nur f&uuml;r die Werw&ouml;lfe und auch 
+				nur bei Nacht verf&uuml;gbar. Sie erlaubt es ihnen umbemerkt zu kommunizieren. Es handelt sich dabei um
+				einen <q>Pseudo-Channel</q> im Query des Bots. Neben der Kommunikation erlaubt die Wulfcom auch die
+				Abstimmung des n&auml;chsten Opfers der Werw&ouml;lfe und einen &Uuml;berblick &uuml;ber die noch lebenden
+				B&uuml;rger und Werw&ouml;lfe. F&uuml;r genauere Informationen, siehe <a href="#commands">Spiel-Befehle</a>.
+			</p>
+			<a href="#" class="up">&uarr; Nach Oben &uarr;</a>
+			<h2 id="commands">Spiel-Befehle</h2>
+			<p>
+				Das Spiel wird haupts&auml;chlich &uuml;ber Trigger im Channel gesteuert. Op's haben im gegensatz zu normalen
+				Usern zus&auml;tzliche Befehle die unter Op-Befehle aufgelistet sind. In dieser Sektion befinden sich 
+				nur die Ingame Befehle.
+			</p>
+			<table class="commandtable">
+				<tr>
+					<th width="25%" class="colhl">Trigger</th><th width="5%">Wo</th><th width="20%" class="colhl">Wann</th><th width="50%">Wirkung</th>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf info</code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						Zeigt Informationen und das Copyright zum Script an.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf top10</code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						Zeigt die Statistik der besten 10 Werwolf-Spieler an.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf myrank <i>[Nick]</i></code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						Zeigt die Statistik des angegebenen <i>[Nick]</i> an. Wird der <i>[Nick]</i> weggelassen, wird die eigene Statistik angezeigt.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf start</code></td>
+					<td>Channel</td>
+					<td class="colhl">Wenn kein Spiel l&auml;uft</td>
+					<td>
+						Startet das Spiel. Ab diesem Zeitpunkt haben alle User im Channel 2 Minuten Zeit
+						sich f&uuml;r das Spiel anzumelden.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!go</code></td>
+					<td>Channel</td>
+					<td class="colhl">In der Anmeldezeit</td>
+					<td>
+						Wenn ein Spiel gestartet wurde wird man aufgefordert <code>!go</code> einzugeben um den Spiel
+						beizutreten. Es m&uuml;ssen mindestens 8 Spieler <code>!go</code> eingeben damit das Spiel
+						beginnen kann.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!vote <i>[Spieler]</i></code></td>
+					<td>Channel</td>
+					<td class="colhl">Am Tag, f&uuml;r jeden Spieler</td>
+					<td>
+						Votetet daf&uuml;r das der Spieler <i>[Spieler]</i> an den Galgen kommen soll.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!missing</code></td>
+					<td>Channel</td>
+					<td class="colhl">Am Tag, f&uuml;r jeden Spieler</td>
+					<td>
+						Zeigt alle Spieler die ihre Stimme noch nicht abgegeben haben.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!stehlen <i>[Spieler]</i></code></td>
+					<td>Query</td>
+					<td class="colhl">Im Spiel, f&uuml;r den Dieb</td>
+					<td>
+						Mit <code>!stehlen <i>[Spieler]</i></code> bestiehlt der Dieb den angegebenen Spieler 
+						<i>[Spieler]</i> und wechselt mit ihm die Gruppe.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!ziel <i>[Spieler]</i></code></td>
+					<td>Query</td>
+					<td class="colhl">Erste Nacht, f&uuml;r den Assasine</td>
+					<td>
+						Legt das Ziel des Assasines fest. Wenn der Spieler <i>[Spieler]</i> am ersten Tag am Galgen
+						h&auml;ngt hat der Assasine gewonnen.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!sehen <i>[Spieler]</i></code></td>
+					<td>Query</td>
+					<td class="colhl">Im Spiel, f&uuml;r den Seher</td>
+					<td>
+						&Uuml;berpr&uuml;ft ob <i>[Spieler]</i> ein normaler B&uuml;rger, oder ob er ein Werwolf ist.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!gift <i>[Spieler]</i></code></td>
+					<td>Query</td>
+					<td class="colhl">In der Nacht, f&uuml;r die Hexe</td>
+					<td>
+						Vergifetet den angegebenen Spieler <i>[Spieler]</i>. Er wird diese Nacht nicht &uuml;berleben.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!belebe <i>[Spieler]</i></code></td>
+					<td>Query</td>
+					<td class="colhl">Zwischen Nacht &amp; Tag, f&uuml;r die Hexe</td>
+					<td>
+						Am fr&uuml;hen morgen belebt die Hexe den Spieler <i>[Spieler]</i> wieder zum leben. Wann
+						genau man diesen Trigger eingeben kann, wird per Query mitgeteilt. Ist in der Nacht nur ein
+						Spieler gestorben kann man die Angabe von <i>[Spieler]</i> weglassen.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!team</code></td>
+					<td>Wulfcom</td>
+					<td class="colhl">In der Nacht, f&uuml;r Werw&ouml;lfe</td>
+					<td>
+						Zeigt die noch lebenden Werw&ouml;lfe in der Wulfcom an.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!b&uuml;rger</code></td>
+					<td>Wulfcom</td>
+					<td class="colhl">In der Nacht, f&uuml;r Werw&ouml;lfe</td>
+					<td>
+						Zeigt die noch lebenden B&uuml;rger in der Wulfcom an.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!zerfleisch <i>[Spieler]</i></code></td>
+					<td>Wulfcom</td>
+					<td class="colhl">In der Nacht, f&uuml;r Werw&ouml;lfe</td>
+					<td>
+						Votet daf&uuml;r das der Spieler <i>[Spieler]</i> als n&auml;chstes von
+						den Werw&ouml;lfen zerfleischt wird.
+					</td>
+				</tr>
+			</table>
+			<a href="#" class="up">&uarr; Nach Oben &uarr;</a>
+			<h2 id="opcommands">Op-Befehle</h2>
+			<p>
+				Neben den normalen Spiel-Triggern haben Op's weitere M&ouml;glichkeiten das Spiel einzustellen
+				und 
+			</p>
+			<table class="commandtable">
+				<tr>
+					<th width="30%" class="colhl">Trigger</th><th width="5%">Wo</th><th width="15%" class="colhl">Wann</th><th width="50%">Wirkung</th>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf pause</code></td>
+					<td>Channel</td>
+					<td class="colhl">Im Spiel</td>
+					<td>
+						Pausiert das Spiel solange bis ein Op <code>!werwolf resume</code> eingibt.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf resume</code></td>
+					<td>Channel</td>
+					<td class="colhl">Im pausierten Spiel</td>
+					<td>
+						Setzt ein mit <code>!werwolf pause</code> pausiertes Spiel fort.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf reset</code></td>
+					<td>Channel</td>
+					<td class="colhl">Im Spiel</td>
+					<td>
+						Beendet das laufende Spiel.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf resetstats</code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						Setzt die Werwolf-Stats zur&uuml;ck.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf backlist</code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						Zeigt die aktuelle Blacklist an.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf backlist add <i>[Hostmask]</i></code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						F&uuml;gt die angegebene <i>[Hostmask]</i> der Blacklist hinzu.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf backlist del <i>[Hostmask/Nr]</i></code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						L&ouml;scht die angegebene <i>[Hostmask/Nr]</i>aus der Blacklist. Die entsprechende Nummer kann der Liste entnommen werden.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf set an <i>[#Channel]</i></code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						Aktiviert das Werwolf-Spiel f&uuml;r den Channel <i>[#Channel]</i>. Wird dieser weggelassen
+						, wird der aktuelle Channel verwendet.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf set aus <i>[#Channel]</i></code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						Deaktiviert das Werwolf-Spiel f&uuml;r den Channel <i>[#Channel]</i>. Wird dieser weggelassen
+						, wird der aktuelle Channel verwendet.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf set rate <i>[Rate]</i></code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						Legt das zahlenm&auml;&szlig;e Verh&auml;ltnis zwischen normalen B&uuml;rgern und
+						Werw&ouml;lfen in Prozent fest. G&uuml;ltige Werte f&uuml;r <i>[Rate]</i> sind die Zahlen von
+						20 bis 50. Wobei 20 bedeutet das 20% (ein f&uuml;nftel) der Spieler Werwolf werden und
+						50 bedeutet das 50% (die h&auml;lfte) der Spieler Werwolf werden.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf set min <i>[Anzahl]</i></code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						Legt die minimale <i>[Anzahl]</i> an Spielern fest. Es m&uuml;ssen allerdings mindestens 4 sein.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf set max <i>[Anzahl]</i></code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						Legt die maximale <i>[Anzahl]</i> an Spielern fest. Gibt man f&uuml;r <i>[Anzahl]</i> 0 an, sind unendlich viele Spieler zugelassen.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf set slowtop10 <i>[an/aus]</i></code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+            Aktiviert oder deaktiviert die langsame Anzeige der Top10. Diese Option ist f&uuml;r Server, auf denen sich der Bot bei 
+            der schnellen Anzeige der Top10 aus dem Channel flooded.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf set <i>[Spezial]</i> an</code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						Aktiviert die angegebene Spezial-Klasse f&uuml;r das Spiel. G&uuml;ltige Werte f&uuml;r
+						<i>[Spezial]</i> sind: <i>K&ouml;nig</i>, <i>Hexe</i>, <i>Heiliger</i>, <i>Assasine</i>, <i>Liebende</i>,
+						<i>Dieb</i> und <i>Seher</i>.
+					</td>
+				</tr>
+				<tr>
+					<td class="colhl"><code>!werwolf set <i>[Spezial]</i> aus</code></td>
+					<td>Channel</td>
+					<td class="colhl">Immer</td>
+					<td>
+						Deaktiviert die angegebene Spezial-Klasse f&uuml;r das Spiel. G&uuml;ltige Werte f&uuml;r
+						<i>[Spezial]</i> sind: <i>K&ouml;nig</i>, <i>Hexe</i>, <i>Heiliger</i>, <i>Assasine</i>, <i>Liebende</i>,
+						<i>Dieb</i> und <i>Seher</i>.
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="footer">
+			<small><b>..::</b> Written by EXT|Alpha <b>::</b> Copyright &copy; by <a href="http://www.eVolutionX-Project.de" target="_blank">eVolutionX-Project Team</a> <b>::..</b></small>
+		</div>
+	</body>
+</html>
