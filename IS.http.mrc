@@ -1,6 +1,6 @@
 ;* (c) 2010 by IrcShark (www.ircshark.net)
 ;* Version 0.1
-;* Autor: Alpha, Andy
+;* Autor: Alpha,Andy
 ;*********************
 ;* IS.http <flags> <URL:port> <cbalias> <file> <binvar> <timeout> <mark>
 ;* Will return the reqid: $IS.http(<flags>, <URL:port>, <cbalias>, <file>, <binvar>, <timeout>, <mark>)
