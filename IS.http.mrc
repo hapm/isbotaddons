@@ -233,17 +233,20 @@ on *:SOCKREAD:IS.http.socket.*: {
         if (%file) bwrite $v1 -1 -1 &IS.http.sockread
         if (%bin) bcopy %bin $iif($bvar(%bin, 0), $v1, 1) &IS.http.sockread 1 $bvar(&IS.http.sockread, 0)
         if ((!%bin) && (!%file)) {
-            var %a = 1, %b
+            var %a = 1, %b, %text
         
             while ($bfind(&IS.http.sockread, %a, 10) || $bfind(&IS.http.sockread, %a, 13)) {
                 %b = $v1
                 if ($v1 > $v2 && $v2 != 0) %b = $v2
+                %text = $bvar(&IS.http.sockread, %a, $calc(%b - %a)).text
                 
-                if ($bvar(&IS.http.sockread, %a, $calc(%b - %a)).text) IS.http.cb %reqid LINE $v1
+                if (%text) IS.http.cb %reqid LINE $iif($hget(IS.http, $+(%reqid, .socktemp)), $v1 $+) %text
+                if ($hget(IS.http, $+(%reqid, .socktemp))) hdel IS.http $+(%reqid, .socktemp)
+                
                 %a = %b + 1
             }
-        
-            IS.http.cb %reqid LINE $bvar(&IS.http.sockread, %a, $bvar(&IS.http.sockread, 0) - %a + 1).text
+
+            if ($bvar(&IS.http.sockread, %a, $bvar(&IS.http.sockread, 0) - %a + 1).text) hadd IS.http $+(%reqid, .socktemp) $v1
         }
         
         IS.http.cb %reqid READ $sockbr
